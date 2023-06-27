@@ -1,36 +1,68 @@
 import { useState } from 'react';
 import './App.css';
+import Input from './Input';
 
 function App() {
-  const [login, setLogin] = useState("Мой use state логин !");
+
+  const [formValues, setFormValues] = useState({});
+
+  const [login, setLogin] = useState("");
+  const [isLoginCorrect, setIsLoginCorrect] = useState(true);
+    
+  const [password, setPassword] = useState("");
+  const [isPasswordCorrect, setIsPasswordCorrect] = useState(true);
 
   const onSubmit = (e) => {
     e.preventDefault();
 
+    console.log({login, password});
+
+  }
+
+  const onChangeInput = (e, name, pattern) => {
+    const isMatch = e.target.value.match(pattern)
+
+
+    setFormValues({...formValues, [name]: e.target.value })
   }
 
   const onChangeLogin = (e) => {
-    if(проверка на правильность){
-      setLogin(e.target.value)
+    const isMatch = e.target.value.match()
 
+    if(isMatch){
+      setIsLoginCorrect(true)
+      console.log("URAAA")
     } else {
-      вызываю ошибку
+      setIsLoginCorrect(false)
+      console.log("Not matches")
     }
-    console.log(e.target.value);
+
+    setLogin(e.target.value)
+
   }
+
+  const onChangePassword = (e) => {
+    const isMatch = e.target.value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/)
+
+    if(!!isMatch){
+      setIsPasswordCorrect(true)
+      console.log("URAAA")
+    } else {
+      setIsPasswordCorrect(false)
+      console.log("Not matches")
+    }
+
+    setPassword(e.target.value)
+  }
+
+  console.log(formValues)
 
   return (
     <div className="App">
       <form onSubmit={onSubmit}>
-        <div>
-          <label htmlFor='login'>Логин: </label>
-          <input value={login} onChange={onChangeLogin} name="login" />
-        </div>
-        <div>
-          <label htmlFor='password'>Пароль: </label>
-          <input name="password"  type='password' />
-        </div>
-        
+        <Input name='login' title='Логин' onChange={(e)=>onChangeInput(e, "login", /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)} placeholder="Please fill your login" isCorrect={isLoginCorrect}  />      
+        <Input name='password' title='Пароль' onChange={onChangePassword} placeholder="Fill your password" isCorrect={isPasswordCorrect}  />
+
         <button type='submit'>Submit form</button>
       </form>
     </div>
