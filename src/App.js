@@ -1,23 +1,38 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
 
 function App() {
+  const [login, setLogin] = useState("Мой use state логин !");
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
+  }
+
+  const onChangeLogin = (e) => {
+    if(проверка на правильность){
+      setLogin(e.target.value)
+
+    } else {
+      вызываю ошибку
+    }
+    console.log(e.target.value);
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <form onSubmit={onSubmit}>
+        <div>
+          <label htmlFor='login'>Логин: </label>
+          <input value={login} onChange={onChangeLogin} name="login" />
+        </div>
+        <div>
+          <label htmlFor='password'>Пароль: </label>
+          <input name="password"  type='password' />
+        </div>
+        
+        <button type='submit'>Submit form</button>
+      </form>
     </div>
   );
 }
